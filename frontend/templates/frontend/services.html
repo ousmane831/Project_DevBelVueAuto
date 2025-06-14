@@ -1,0 +1,40 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+{% block title %}Nos Services{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'frontend/services.css' %}">
+<div class="services-container">
+  <h1>Nos Services</h1>
+  
+  <div class="services-grid">
+    <!-- Service 1 -->
+    <div class="service-card">
+      <i class="fas fa-car service-icon"></i>
+      <h2>Vente de véhicules</h2>
+      <p>Large sélection de véhicules neufs et d'occasion de qualité.</p>
+    </div>
+    
+    <!-- Service 2 -->
+    <div class="service-card">
+      <i class="fas fa-tools service-icon"></i>
+      <h2>Service après-vente</h2>
+      <p>Entretien et réparation par nos techniciens qualifiés.</p>
+    </div>
+    
+    <!-- Service 3 -->
+    <div class="service-card">
+      <i class="fas fa-shield-alt service-icon"></i>
+      <h2>Garantie</h2>
+      <p>Garantie étendue sur tous nos véhicules.</p>
+    </div>
+    
+    <!-- Service 4 -->
+    <div class="service-card">
+      <i class="fas fa-headset service-icon"></i>
+      <h2>Assistance 24/7</h2>
+      <p>Service d'assistance routière disponible 24h/24, 7j/7.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

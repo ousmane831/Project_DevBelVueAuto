@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: mon-projet-django
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn mon_projet.wsgi
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ma-bdd
+          property: connectionString
+    autoDeploy: true
+
+databases:
+  - name: ma-bdd
+    plan: free

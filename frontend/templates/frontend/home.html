@@ -1,0 +1,90 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Accueil{% endblock %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="{% static 'frontend/banner.css' %}" />
+
+
+<div class="banner">
+  <div class="banner-overlay">
+    <div class="banner-content">
+      <h1>Bienvenue chez <span>Dev Belvue Auto</span></h1>
+      <p class="subtitle">Découvrez notre sélection de véhicules d'exception</p>
+      <div class="filter-section">
+        <a href="{% url 'filtrer_vehicules' %}" class="filter-link">🔍 Filtrez selon vos besoins</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="featured-vehicles">
+  <h1>Véhicules de luxe à la une</h1>
+  
+  <div class="vehicles-grid">
+    <!-- Véhicule 1 -->
+    <div class="vehicle-card">
+      <div class="vehicle-image" style="background-image: url('{% static 'frontend/img/lamborghini_vert.jpg' %}')"></div>
+      <div class="vehicle-info">
+        <h2>Lamborghini URUS</h2>
+        <ul class="vehicle-specs">
+          <li><i class="fas fa-calendar"></i> 2024</li>
+          <li><i class="fas fa-road"></i> 90 km</li>
+          <li><i class="fas fa-gas-pump"></i> Essence</li>
+        </ul>
+        <div class="vehicle-price"><i class="fas fa-money-bill-wave"></i> 264.967.296 FCFA TTC</div>
+        <div class="button-row">
+        <a href="{% url 'filtrer_vehicules' %}" class="details-btn">VOIR LES VEHICULES</a>
+        <a href="{% url 'contact' %}" class="btn-contact">NOUS CONTACTER</a>
+      </div>
+      </div>
+    </div>
+    
+    <!-- Véhicule 2 -->
+    <div class="vehicle-card">
+      <div class="vehicle-image" style="background-image: url('{% static 'frontend/img/Lamborghini.jpg' %}')"></div>
+      <div class="vehicle-info">
+        <h2>Lamborghini Aventador SV</h2>
+        <ul class="vehicle-specs">
+          <li><i class="fas fa-calendar"></i> 2016</li>
+          <li><i class="fas fa-road"></i> 6.960 km</li>
+          <li><i class="fas fa-gas-pump"></i> Essence</li>
+        </ul>
+        <div class="vehicle-price"><i class="fas fa-money-bill-wave"></i> 334.621.744 FCFA TTC</div>
+
+        <div class="button-row">
+        <a href="{% url 'filtrer_vehicules' %}" class="details-btn">VOIR LES VEHICULES</a>
+        <a href="{% url 'contact' %}" class="btn-contact">NOUS CONTACTER</a>
+      </div>
+      
+      </div>
+    </div>
+    
+    <!-- Véhicule 3 -->
+    <div class="vehicle-card">
+      <div class="vehicle-image" style="background-image: url('{% static 'frontend/img/mercedes_class_s.jpg' %}')"></div>
+      <div class="vehicle-info">
+        <h2>Mercedes Benz Classe S</h2>
+        <ul class="vehicle-specs">
+          <li><i class="fas fa-calendar"></i> 2024</li>
+          <li><i class="fas fa-road"></i> 8.500 km</li>
+          <li><i class="fas fa-gas-pump"></i> Essence</li>
+        </ul>
+        <div class="vehicle-price"><i class="fas fa-money-bill-wave"></i> 193.759.144 FCFA TTC</div>
+        <div class="button-row">
+        <a href="{% url 'filtrer_vehicules' %}" class="details-btn">VOIR LES VEHICULES</a>
+        <a href="{% url 'contact' %}" class="btn-contact">NOUS CONTACTER</a>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block extra_js %}
+<script src="{% static 'frontend/js/banner-slider.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

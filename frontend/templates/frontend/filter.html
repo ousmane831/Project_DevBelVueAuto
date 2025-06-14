@@ -1,0 +1,140 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Liste des Véhicules{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'frontend/filter.css' %}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+
+<h1 class="h1" style="text-align: center;">Trouvez votre véhicule</h1>
+
+<form id="filter-form">
+  <select name="marque" id="marque" class="auto-filter">
+    <option value="">Toutes les marques</option>
+    <option value="DS Automobiles">DS Automobiles</option>
+    <option value="BMW">BMW</option>
+    <option value="Mercedes Benz">Mercedes Benz</option>
+    <option value="Land Rover">Land Rover</option>
+    <option value="Opel">Opel</option>
+    <option value="Citroën">Citroën</option>
+    <option value="Lamborghini">Lamborghini</option>
+  </select>
+
+  <select name="modele" id="modele" class="auto-filter">
+    <option value="">Tous les modèles</option>
+  </select>
+
+  <select name="transmission" id="transmission" class="auto-filter">
+    <option value="">Toutes les transmissions</option>
+    <option value="Manuelle">Manuelle</option>
+    <option value="Automatique">Automatique</option>
+  </select>
+
+  <select name="carburant" id="carburant" class="auto-filter">
+    <option value="">Tous les carburants</option>
+    <option value="Essence">Essence</option>
+    <option value="Diesel">Diesel</option>
+    <option value="Electric">Electric</option>
+    <option value="Hybride">Hybride</option>
+    <option value="Gasoil">Gasoil</option>
+  </select>
+
+  <input type="number" name="annee" id="annee" placeholder="Année max" class="auto-filter">
+  <input type="number" name="kilometrage" id="kilometrage" placeholder="Kilométrage max" class="auto-filter">
+  <input type="number" name="prix" id="prix" placeholder="Prix max" class="auto-filter">
+
+  <button type="button" onclick="resetFormAndReload()">Réinitialiser</button>
+</form>
+
+<div id="vehicules-container">
+  <!-- Résultats AJAX -->
+</div>
+
+<script>
+  function chargerVehicules() {
+    const formData = new FormData(document.getElementById('filter-form'));
+    const params = new URLSearchParams();
+
+    for (const [key, value] of formData.entries()) {
+      if (value) {
+        if (key === 'prix') {
+          params.append('prix_max', value);
+        } else {
+          params.append(key, value);
+        }
+      }
+    }
+
+    const url = `http://127.0.0.1:8000/api/filtrer/?${params.toString()}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('vehicules-container');
+        container.innerHTML = '';
+
+        if (data.length === 0) {
+          container.innerHTML = '<p>Aucun véhicule trouvé.</p>';
+        } else {
+          data.forEach(v => {
+            const html = `
+              <div class="vehicule-card">
+                <img src="${v.photo_url}" alt="${v.nom}">
+                <h3>${v.nom}</h3>
+                <p><strong>${v.marque}</strong> - ${v.modele}</p>
+                <p><strong>Prix:</strong> ${v.prix} FCFA</p>
+                <p><strong>Transmission:</strong> ${v.transmission}</p>
+                <p><strong>Carburant:</strong> ${v.carburant}</p>
+                <p><strong>Kilométrage:</strong> ${v.kilometrage} km</p>
+                <a href="/vehicle/${v.id}/" class="details-button">Voir les détails</a>
+              </div>
+            `;
+            container.innerHTML += html;
+          });
+        }
+      });
+  }
+
+  function chargerModelesSelonMarque() {
+    const marque = document.getElementById('marque').value;
+    const modeleSelect = document.getElementById('modele');
+    modeleSelect.innerHTML = '<option value="">Tous les modèles</option>';
+
+    if (!marque) return;
+
+    fetch(`http://127.0.0.1:8000/api/modeles/?marque=${encodeURIComponent(marque)}`)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(modele => {
+          const opt = document.createElement('option');
+          opt.value = modele;
+          opt.textContent = modele;
+          modeleSelect.appendChild(opt);
+        });
+      });
+  }
+
+  document.querySelectorAll('.auto-filter').forEach(input => {
+    input.addEventListener('change', () => {
+      if (input.id === 'marque') {
+        chargerModelesSelonMarque();
+      }
+      chargerVehicules();
+    });
+  });
+
+  function resetFormAndReload() {
+    document.getElementById('filter-form').reset();
+    chargerModelesSelonMarque();
+    chargerVehicules();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    chargerModelesSelonMarque();
+    chargerVehicules();
+  });
+</script>
+{% endblock %}

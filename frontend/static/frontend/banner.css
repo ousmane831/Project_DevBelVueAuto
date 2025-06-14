@@ -1,0 +1,220 @@
+.banner {
+  position: relative;
+  height: 80vh;
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: background-image 0.7s ease-in-out;
+}
+
+
+  .banner-overlay {
+    background: rgba(0, 0, 0, 0.6); /* effet sombre */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .banner-content {
+    text-align: center;
+    padding: 0 50px;
+  }
+
+  .banner-content h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #fff;
+  }
+
+  .banner-content h1 span {
+    color: #e74c3c;
+  }
+
+  .subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    color: #ddd;
+  }
+
+  .filter-link {
+  display: inline-block;
+  background-color: #e53935; /* rouge doux */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.2);
+}
+
+.filter-link:hover {
+  background-color: #d32f2f; /* rouge un peu plus foncé au hover */
+  transform: translateY(-2px);
+}
+
+
+  
+  @media (max-width: 768px) {
+    .banner-content h1 {
+      font-size: 2.2rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+    }
+  }
+
+
+
+   /* Styles pour la section des véhicules de luxe */
+  .featured-vehicles {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+  }
+  
+  .featured-vehicles h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-size: 2rem;
+  }
+  
+  .vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+  }
+  
+  .vehicle-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  
+  .vehicle-image {
+    height: 200px;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .vehicle-info {
+    padding: 20px;
+  }
+  
+  .vehicle-info h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+  }
+  
+  .vehicle-specs {
+    list-style-type: none;
+    padding: 0;
+    margin: 15px 0;
+  }
+  
+  .vehicle-specs li {
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .vehicle-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin: 15px 0;
+  }
+  
+  .details-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:black;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-contact {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:red;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .details-btn:hover {
+    background-color: #1a252f;
+  }
+  
+  @media (max-width: 768px) {
+    .vehicles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .vehicle-specs {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.vehicle-specs li {
+  display: flex;
+  align-items: center;
+}
+
+.vehicle-specs li i {
+  margin-right: 6px;
+  color: #e63946; /* une couleur rouge foncé sympa */
+}
+
+.vehicle-price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  color: #222;
+  display: flex;
+  align-items: center;
+}
+
+.vehicle-price i {
+  margin-right: 8px;
+  color: #e63946; /* couleur verte */
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.button-row .details-btn,
+.button-row .btn-contact {
+  flex: 1 1 48%;
+  text-align: center;
+}
+
+
+
