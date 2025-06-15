@@ -145,9 +145,12 @@ SECRET_KEY = os.getenv("SECRET_KEY", "change-me")
 ALLOWED_HOSTS = ['.onrender.com']
 
 # BASE DE DONNÉES
+
+
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
+
 
 # FICHIERS STATIQUES
 STATIC_URL = '/static/'
@@ -157,6 +160,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # Whitenoise pour servir les fichiers
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Ajout
-    ...
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Ajoute ici tes middlewares custom si besoin
 ]
