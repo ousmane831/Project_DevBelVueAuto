@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'frontend',
     'rest_framework',
     "django.contrib.humanize",
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware'
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -53,6 +55,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://project-devbelvueauto.onrender.com",
+    
 ]
 
 ROOT_URLCONF = "DevBelVueAuto.urls"
@@ -161,7 +168,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Whitenoise pour servir les fichiers
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Ajoute cette ligne
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
