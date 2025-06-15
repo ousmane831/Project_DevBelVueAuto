@@ -52,8 +52,11 @@
 <div id="vehicules-container">
   <!-- Résultats AJAX -->
 </div>
-
 <script>
+  const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://127.0.0.1:8000"
+    : "https://project-devbelvueauto.onrender.com";
+
   function chargerVehicules() {
     const formData = new FormData(document.getElementById('filter-form'));
     const params = new URLSearchParams();
@@ -68,7 +71,7 @@
       }
     }
 
-    const url = `http://127.0.0.1:8000/api/filtrer/?${params.toString()}`;
+    const url = `${API_BASE_URL}/api/filtrer/?${params.toString()}`;
 
     fetch(url)
       .then(response => response.json())
@@ -105,7 +108,7 @@
 
     if (!marque) return;
 
-    fetch(`http://127.0.0.1:8000/api/modeles/?marque=${encodeURIComponent(marque)}`)
+    fetch(`${API_BASE_URL}/api/modeles/?marque=${encodeURIComponent(marque)}`)
       .then(response => response.json())
       .then(data => {
         data.forEach(modele => {
@@ -137,4 +140,5 @@
     chargerVehicules();
   });
 </script>
+
 {% endblock %}
