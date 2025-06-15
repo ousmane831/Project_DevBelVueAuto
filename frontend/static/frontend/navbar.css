@@ -50,7 +50,6 @@
   border-radius: 4px;
   color: white;
 }
-
 /* Hamburger menu (mobile) */
 .menu-toggle {
   display: none;
@@ -69,15 +68,20 @@
 @media (max-width: 768px) {
   .nav-links {
     display: none;
-    width: 100%;
     flex-direction: column;
-    gap: 0;
+    width: 100%;
     background-color: #000;
   }
 
   .nav-links li {
     text-align: center;
     border-top: 1px solid #444;
+    padding: 1px 0; /* 🔹 Réduit (au lieu de 12px) */
+  }
+
+  .nav-links li a {
+    display: block;
+    padding: 4px 8px; /* 🔹 Plus serré mais toujours cliquable */
   }
 
   .nav-links.show {
