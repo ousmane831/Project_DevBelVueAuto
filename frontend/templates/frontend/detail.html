@@ -15,8 +15,7 @@
       <!-- Colonne image/carrousel -->
       <div class="col-md-6 bg-dark">
         <div id="carouselVehicleImages" class="carousel slide h-100" data-bs-ride="carousel" style="max-height: 500px;">
-         <div class="carousel-inner h-100">
-
+          <div class="carousel-inner h-100">
             {% if images %}
               {% for img_url in images %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %} h-100">
@@ -28,7 +27,6 @@
                 <img src="{% static 'frontend/img/default-vehicle.jpg' %}" class="d-block w-100 h-100 object-fit-cover" alt="Image par défaut">
               </div>
             {% endif %}
-
           </div>
 
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselVehicleImages" data-bs-slide="prev">
@@ -60,7 +58,7 @@
 
         <div class="mb-4">
           <h5 class="text-uppercase text-muted">Description</h5>
-          <p class="text-muted">{{ vehicle.description}}</p>
+          <p class="text-muted">{{ vehicle.description }}</p>
         </div>
 
         <div class="d-flex justify-content-between">

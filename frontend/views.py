@@ -14,11 +14,14 @@ def services(request):
 def contact(request):
     return render(request, 'frontend/contact.html')
 
+
+
 import os
 import requests
 from django.shortcuts import render
 
 def detail_vehicle(request, id):
+    # Choix de l'URL de l'API selon l'environnement (local ou production)
     if request.get_host().startswith("127.0.0.1") or request.get_host().startswith("localhost"):
         api_base_url = "http://127.0.0.1:8000"
     else:
@@ -34,12 +37,12 @@ def detail_vehicle(request, id):
         if vehicle:
             images = []
 
-            # Ajouter la photo principale
+            # Ajouter la photo principale si elle existe
             photo_url = vehicle.get('photo_url')
             if photo_url:
                 images.append(photo_url)
 
-            # Ajouter les images de la galerie
+            # Ajouter les images supplémentaires sans doublon
             for img in vehicle.get('images', []):
                 image_url = img.get('image_url')
                 if image_url and image_url != photo_url:
@@ -50,4 +53,5 @@ def detail_vehicle(request, id):
                 'images': images
             })
 
+    # Si le véhicule n'existe pas ou erreur API, afficher la page 404
     return render(request, 'frontend/404.html', status=404)
