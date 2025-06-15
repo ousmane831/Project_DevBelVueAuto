@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <meta name="csrf-token" content="{{ csrf_token }}">
 
-
 <h1 class="h1" style="text-align: center;">Trouvez votre véhicule</h1>
 
 <form id="filter-form">
@@ -52,6 +51,7 @@
 <div id="vehicules-container">
   <!-- Résultats AJAX -->
 </div>
+
 <script>
   const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:8000"
@@ -140,5 +140,90 @@
     chargerVehicules();
   });
 </script>
-
 {% endblock %}
+
+
+<!-- <script>
+  function chargerVehicules() {
+    const formData = new FormData(document.getElementById('filter-form'));
+    const params = new URLSearchParams();
+
+    for (const [key, value] of formData.entries()) {
+      if (value) {
+        if (key === 'prix') {
+          params.append('prix_max', value);
+        } else {
+          params.append(key, value);
+        }
+      }
+    }
+
+    const url = `http://127.0.0.1:8000/api/filtrer/?${params.toString()}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('vehicules-container');
+        container.innerHTML = '';
+
+        if (data.length === 0) {
+          container.innerHTML = '<p>Aucun véhicule trouvé.</p>';
+        } else {
+          data.forEach(v => {
+            const html = `
+              <div class="vehicule-card">
+                <img src="${v.photo_url}" alt="${v.nom}">
+                <h3>${v.nom}</h3>
+                <p><strong>${v.marque}</strong> - ${v.modele}</p>
+                <p><strong>Prix:</strong> ${v.prix} FCFA</p>
+                <p><strong>Transmission:</strong> ${v.transmission}</p>
+                <p><strong>Carburant:</strong> ${v.carburant}</p>
+                <p><strong>Kilométrage:</strong> ${v.kilometrage} km</p>
+                <a href="/vehicle/${v.id}/" class="details-button">Voir les détails</a>
+              </div>
+            `;
+            container.innerHTML += html;
+          });
+        }
+      });
+  }
+
+  function chargerModelesSelonMarque() {
+    const marque = document.getElementById('marque').value;
+    const modeleSelect = document.getElementById('modele');
+    modeleSelect.innerHTML = '<option value="">Tous les modèles</option>';
+
+    if (!marque) return;
+
+    fetch(`http://127.0.0.1:8000/api/modeles/?marque=${encodeURIComponent(marque)}`)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(modele => {
+          const opt = document.createElement('option');
+          opt.value = modele;
+          opt.textContent = modele;
+          modeleSelect.appendChild(opt);
+        });
+      });
+  }
+
+  document.querySelectorAll('.auto-filter').forEach(input => {
+    input.addEventListener('change', () => {
+      if (input.id === 'marque') {
+        chargerModelesSelonMarque();
+      }
+      chargerVehicules();
+    });
+  });
+
+  function resetFormAndReload() {
+    document.getElementById('filter-form').reset();
+    chargerModelesSelonMarque();
+    chargerVehicules();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    chargerModelesSelonMarque();
+    chargerVehicules();
+  });
+</script> -->
