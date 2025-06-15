@@ -14,11 +14,17 @@ def services(request):
 def contact(request):
     return render(request, 'frontend/contact.html')
 
+import os
 import requests
 from django.shortcuts import render
 
 def detail_vehicle(request, id):
-    url = 'http://127.0.0.1:8000/api/filtrer/'
+    if request.get_host().startswith("127.0.0.1") or request.get_host().startswith("localhost"):
+        api_base_url = "http://127.0.0.1:8000"
+    else:
+        api_base_url = "https://project-devbelvueauto.onrender.com"
+
+    url = f"{api_base_url}/api/filtrer/"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -28,7 +34,7 @@ def detail_vehicle(request, id):
         if vehicle:
             images = []
 
-            # Ajouter la photo principale s’il y en a une
+            # Ajouter la photo principale
             photo_url = vehicle.get('photo_url')
             if photo_url:
                 images.append(photo_url)
@@ -36,7 +42,7 @@ def detail_vehicle(request, id):
             # Ajouter les images de la galerie
             for img in vehicle.get('images', []):
                 image_url = img.get('image_url')
-                if image_url and image_url != photo_url:  # éviter doublon
+                if image_url and image_url != photo_url:
                     images.append(image_url)
 
             return render(request, 'frontend/detail.html', {
