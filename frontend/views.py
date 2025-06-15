@@ -21,15 +21,15 @@ from django.shortcuts import render
 from django.http import Http404
 
 def detail_vehicle(request, id):
-    # Détection base URL API
-    host = request.get_host()
-    if host.startswith("127.0.0.1") or host.startswith("localhost"):
+    # Extraction du host sans port
+    host = request.get_host().split(':')[0]
+    if host in ("127.0.0.1", "localhost"):
         api_base_url = "http://127.0.0.1:8000"
     else:
         api_base_url = "https://project-devbelvueauto.onrender.com"
 
     url = f"{api_base_url}/api/filtrer/"
-    
+
     try:
         response = requests.get(url, timeout=5)  # Timeout pour éviter blocage
         response.raise_for_status()  # Lève une exception en cas d'erreur HTTP
