@@ -15,7 +15,6 @@ def contact(request):
     return render(request, 'frontend/contact.html')
 
 
-
 import requests
 from django.shortcuts import render
 from django.http import Http404
@@ -37,7 +36,8 @@ def detail_vehicle(request, id):
         raise Http404("Erreur lors de la récupération des données du véhicule")
 
     vehicules = response.json()
-    vehicle = next((v for v in vehicules if v['id'] == id), None)
+    # Correction ici : conversion en int pour comparaison sûre
+    vehicle = next((v for v in vehicules if int(v['id']) == int(id)), None)
 
     if not vehicle:
         raise Http404("Véhicule non trouvé")
