@@ -18,36 +18,57 @@ def contact(request):
 import requests
 from django.shortcuts import render
 from django.http import Http404
+from urllib.parse import urljoin
+import logging
+
+logger = logging.getLogger(__name__)
 
 def detail_vehicle(request, id):
-    # Extraction du host sans port
+    # Configuration des URLs API
     host = request.get_host().split(':')[0]
     if host in ("127.0.0.1", "localhost"):
         api_base_url = "http://127.0.0.1:8000"
+        api_endpoint = "/api/filtrer/"  # Endpoint local qui retourne tous les véhicules
     else:
         api_base_url = "https://project-devbelvueauto.onrender.com"
+        api_endpoint = f"/api/filtrer/{id}/"  # Endpoint production avec ID
 
-    url = f"{api_base_url}/api/filtrer/"
+    url = urljoin(api_base_url, api_endpoint)
+    
+    logger.debug(f"Tentative de récupération du véhicule via URL: {url}")
 
     try:
-        response = requests.get(url, timeout=5)  # Timeout pour éviter blocage
-        response.raise_for_status()  # Lève une exception en cas d'erreur HTTP
-    except requests.RequestException:
-        raise Http404("Erreur lors de la récupération des données du véhicule")
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        data = response.json()
 
-    vehicules = response.json()
-    # Correction ici : conversion en int pour comparaison sûre
-    vehicle = next((v for v in vehicules if int(v['id']) == int(id)), None)
+        # Gestion des deux formats de réponse (liste ou objet unique)
+        if host in ("127.0.0.1", "localhost"):
+            # Mode local - on reçoit une liste de véhicules
+            vehicle = next((v for v in data if int(v.get('id')) == int(id)), None)
+        else:
+            # Mode production - on reçoit directement le véhicule
+            vehicle = data if data and 'id' in data else None
 
-    if not vehicle:
-        raise Http404("Véhicule non trouvé")
+        if not vehicle:
+            logger.warning(f"Véhicule {id} non trouvé dans la réponse API")
+            raise Http404("Ce véhicule n'existe pas")
 
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"Erreur HTTP de l'API: {str(e)}")
+        if e.response.status_code == 404:
+            raise Http404("Ce véhicule n'existe pas")
+        raise Http404("Erreur temporaire du serveur, veuillez réessayer plus tard")
+    except requests.RequestException as e:
+        logger.error(f"Erreur de connexion à l'API: {str(e)}")
+        raise Http404("Service temporairement indisponible")
+
+    # Traitement des images (inchangé)
     images = []
     photo_url = vehicle.get('photo_url')
     if photo_url:
         images.append(photo_url)
 
-    # Ajouter images supplémentaires sans doublon
     for img in vehicle.get('images', []):
         image_url = img.get('image_url')
         if image_url and image_url != photo_url:
