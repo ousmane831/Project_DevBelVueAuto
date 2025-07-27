@@ -15,52 +15,36 @@ def contact(request):
     return render(request, 'frontend/contact.html')
 
 
-import requests
-from django.shortcuts import render
-from django.http import Http404
-from urllib.parse import urljoin
-import logging
-
-logger = logging.getLogger(__name__)
+from django.shortcuts import render, get_object_or_404
+from vehicules.models import Vehicle
 
 def detail_vehicle(request, id):
-    # Base URL dynamique selon l'environnement
-    api_base_url = "https://project-devbelvueauto.onrender.com" if not request.get_host().startswith(('127.0.0.1', 'localhost')) else "http://127.0.0.1:8000"
-    url = urljoin(api_base_url, f"/api/vehicules/{id}/")
+    vehicle = get_object_or_404(Vehicle, id=id)
 
-    try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0',
-            'Accept': 'application/json',
-        }
-
-        response = requests.get(
-            url,
-            headers=headers,
-            cookies=request.COOKIES,
-            timeout=10
-        )
-
-        if response.status_code != 200:
-            raise Http404("Véhicule non trouvé")
-
-        vehicle = response.json()
-
-    except requests.RequestException as e:
-        logger.error(f"Erreur lors de l'appel à l'API : {str(e)}")
-        raise Http404("Service temporairement indisponible")
-
-    # Récupération des images
     images = []
-    if vehicle.get('photo_url'):
-        images.append(vehicle['photo_url'])
 
-    for img in vehicle.get('images', []):
-        img_url = img.get('image_url') if isinstance(img, dict) else img
-        if img_url and img_url not in images:
-            images.append(img_url)
+    # ✅ Ajout de l’image principale
+    if vehicle.photo:
+        images.append(vehicle.photo.url)
+
+    # ✅ Ajout des images liées via VehicleImage
+    for img in vehicle.images.all():
+        if img.image:
+            images.append(img.image.url)
 
     return render(request, 'frontend/detail.html', {
-        'vehicle': vehicle,
+        'vehicle': {
+            'id': vehicle.id,
+            'nom': vehicle.nom,
+            'marque': vehicle.marque,
+            'modele': vehicle.modele,
+            'annee': vehicle.annee,
+            'kilometrage': vehicle.kilometrage,
+            'transmission': vehicle.transmission,
+            'carburant': vehicle.carburant,
+            'prix': vehicle.prix,
+            'description': vehicle.description,
+            'photo': vehicle.photo.url if vehicle.photo else None,
+        },
         'images': images
     })
