@@ -41,7 +41,7 @@
       </div>
 
       <!-- Colonne infos véhicule -->
-      <div class="card vehicle-detail col-md-6 p-4">
+      <div class="card vehicle-detail col-md-6 p-0">
         <h2 class="vehicle-title">{{ vehicle.marque }} {{ vehicle.modele }}</h2>
         <ul class="list-group list-group-flush mb-4">
           <li class="list-group-item"><strong>Marque :</strong> {{ vehicle.marque }}</li>
@@ -56,10 +56,10 @@
           </li>
         </ul>
 
-        <div class="mb-4">
+        <!-- <div class="mb-3">
           <h5 class="text-uppercase text-muted">Description</h5>
           <p class="text-muted">{{ vehicle.description }}</p>
-        </div>
+        </div> -->
 
         <div class="d-flex justify-content-between">
           <a href="{% url 'filtrer_vehicules' %}" class="btn btn-outline-dark rounded-pill px-4">

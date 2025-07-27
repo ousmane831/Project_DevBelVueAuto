@@ -13,6 +13,8 @@ body {
   border-radius: 20px;
   margin: 2rem 0;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  
+  
 }
 
 /* Titre du véhicule */
@@ -31,12 +33,14 @@ body {
   font-size: 1rem;
   display: flex;
   align-items: center;
+  
 }
 
 .list-group-item i {
   font-size: 1.2rem;
   color: #6c757d;
   margin-right: 0.75rem;
+  
 }
 
 /* Prix */
@@ -81,6 +85,7 @@ body {
 #carouselVehicleImages {
   max-height: 500px;
   overflow: hidden;
+
 }
 
 #carouselVehicleImages .carousel-inner,
@@ -135,3 +140,25 @@ body {
   object-fit: cover !important;
   border-radius: 0 !important;
 }
+
+/* Flèches du carrousel Bootstrap */
+#carouselVehicleImages .carousel-control-prev-icon,
+#carouselVehicleImages .carousel-control-next-icon {
+  background-color: hsla(354, 96%, 47%, 0.888); /* rouge foncé semi-transparent */
+  background-size: 100% 100%;
+  border-radius: 50%;
+  padding: 15px;
+}
+
+/* Agrandir les flèches */
+#carouselVehicleImages .carousel-control-prev,
+#carouselVehicleImages .carousel-control-next {
+  width: 5%;
+}
+
+/* Optionnel : ajouter une ombre pour contraster */
+#carouselVehicleImages .carousel-control-prev-icon,
+#carouselVehicleImages .carousel-control-next-icon {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
